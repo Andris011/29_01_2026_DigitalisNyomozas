@@ -4,14 +4,14 @@ public class Evidence
 {
     private string azonosito;
     private string tipus;
-    private string liras;
+    private string leiras;
     private int megbizhatosag;
 
-    public Evidence(string azonosito, string tipus, string liras, int megbizhatosag)
+    public Evidence(string azonosito, string tipus, string leiras, int megbizhatosag)
     {
         this.azonosito = azonosito;
         this.tipus = tipus;
-        this.liras = liras;
+        this.leiras = leiras;
         this.megbizhatosag = megbizhatosag;
     }
 
@@ -27,10 +27,10 @@ public class Evidence
         set => tipus = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public string Liras
+    public string Leiras
     {
-        get => liras;
-        set => liras = value ?? throw new ArgumentNullException(nameof(value));
+        get => leiras;
+        set => leiras = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public int Megbizhatosag
