@@ -7,17 +7,16 @@ internal class Case
     private string cim;
     private string leiras;
     private string allapot;
-    private string szemelyek;
-    private string bizonyitekok;
+    private List<Person> szemelyek = new List<Person>();
+    private List<Evidence> bizonyitekok = new List<Evidence>();
+    
 
-    public Case(string ugyAzonosito, string cim, string leiras, string allapot, string szemelyek, string bizonyitekok)
+    public Case(string ugyAzonosito, string cim, string leiras, string allapot)
     {
         this.ugyAzonosito = ugyAzonosito;
         this.cim = cim;
         this.leiras = leiras;
         this.allapot = allapot;
-        this.szemelyek = szemelyek;
-        this.bizonyitekok = bizonyitekok;
     }
     
     public string UgyAzonosito
@@ -44,16 +43,20 @@ internal class Case
         set => allapot = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public string Szemelyek
+    public void AddEvidence(Evidence evidence)
     {
-        get => szemelyek;
-        set => szemelyek = value ?? throw new ArgumentNullException(nameof(value));
+        bizonyitekok.Add(evidence);
     }
 
-    public string Bizonyitekok
+    public void AddPerson(Person person)
     {
-        get => bizonyitekok;
-        set => bizonyitekok = value ?? throw new ArgumentNullException(nameof(value));
+        szemelyek.Add(person);
     }
-
+    
+    
+    public override string ToString()
+    {
+        return $"azonosító: {ugyAzonosito}, cím: {cim}, leírás: {leiras}, állapot: {allapot} " +
+               $"\n személyek: {szemelyek} \n bizonyitekok: {bizonyitekok}";
+    }
 }

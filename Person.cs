@@ -30,4 +30,9 @@ public class Person
         get => megjegyzes;
         set => megjegyzes = value ?? throw new ArgumentNullException(nameof(value));
     }
+
+    public override string ToString()
+    {
+        return $"Név: {nev}, életkoz: {eletkor}, megjegyzés: {megjegyzes} \n";
+    }
 }
