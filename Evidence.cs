@@ -38,4 +38,9 @@ public class Evidence
         get => megbizhatosag;
         set => megbizhatosag = value;
     }
+
+    public override string ToString()
+    {
+        return $"Azonosító: {azonosito} Megbízhatóság: {megbizhatosag} Típus: {tipus} Leírás: {leiras}";
+    } 
 }
