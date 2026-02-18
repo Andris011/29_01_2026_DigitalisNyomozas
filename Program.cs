@@ -106,148 +106,189 @@ class Program
 
     static void CaseManager()
     {
-        Console.Clear();
-        Console.WriteLine("1. Új ügy létrehozása");
-        Console.WriteLine("2. Ügyyek listázása");
-        Console.WriteLine("3. Bizonyítékok hozzárendelése");
-        Console.WriteLine("4. Személyek hozzárendelése");
-
-        string opcio = Console.ReadLine();
-        
-        switch (opcio)
+        string opcio;
+        do
         {
-            case "1":
-                Console.WriteLine("Ügy azonosítója: ");
-                string ugyAzonosito = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("1. Új ügy létrehozása");
+            Console.WriteLine("2. Ügyyek listázása");
+            Console.WriteLine("3. Bizonyítékok hozzárendelése");
+            Console.WriteLine("4. Személyek hozzárendelése");
+            Console.WriteLine("5. Vissza");
 
-                Console.WriteLine("Cím: ");
-                string cim = Console.ReadLine();
+            opcio = Console.ReadLine();
 
-                Console.WriteLine("Leírás: ");
-                string leiras = Console.ReadLine();
+            switch (opcio)
+            {
+                case "1":
+                    Console.WriteLine("Ügy azonosítója: ");
+                    string ugyAzonosito = Console.ReadLine();
 
-                Console.WriteLine("Állapot: ");
-                string allapot = Console.ReadLine();
-                
-                
-                cases.Add(new Case(ugyAzonosito, cim, leiras, allapot));
-                break;
-            
-            case "2":
+                    Console.WriteLine("Cím: ");
+                    string cim = Console.ReadLine();
 
-                if (cases.Count > 0)
-                {
+                    Console.WriteLine("Leírás: ");
+                    string leiras = Console.ReadLine();
 
-                    foreach (Case elem in cases)
+                    Console.WriteLine("Állapot: ");
+                    string allapot = Console.ReadLine();
+
+
+                    cases.Add(new Case(ugyAzonosito, cim, leiras, allapot));
+                    break;
+
+                case "2":
+
+                    if (cases.Count > 0)
                     {
-                        Console.WriteLine(elem.ToString());
-                    }
-                    
-                    Wait();
-                }
-                else
-                {
-                    Console.WriteLine("Nincs semmilyen ügy");
-                    Wait();
-                }
-                break;
-            
-            case "3":
 
-                Console.WriteLine("Melyik ügyhöz szeretne hozzáadni bizonyítékot? (azonosító)");
-                ugyAzonosito = Console.ReadLine();
+                        foreach (Case elem in cases)
+                        {
+                            Console.WriteLine(elem.ToString());
+                        }
 
-                Case ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
-
-                while (ugy == null)
-                {
-                    Console.WriteLine("Nincs ilyen ügy, adjon meg egy másikat!");
-                    ugyAzonosito = Console.ReadLine();
-                    ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
-                }
-                
-                
-                Console.WriteLine("Melyik bizonyítékot szertné hozzáadni? (azonosító)");
-                string bizAzonosito = Console.ReadLine();
-                
-                foreach (Evidence evidence in evidences)
-                {
-                    if (evidence.Azonosito  == bizAzonosito)
-                    {
-                        Console.WriteLine("A bizonyíték hozzáadása megtörtént!");
-                        ugy.AddEvidence(evidence);
                         Wait();
                     }
                     else
                     {
-                        Console.WriteLine("Nincs ilyen bizonyíték");
+                        Console.WriteLine("Nincs semmilyen ügy");
                         Wait();
                     }
 
+                    break;
+
+                case "3":
+
+                    Console.WriteLine("Melyik ügyhöz szeretne hozzáadni bizonyítékot? (azonosító)");
+                    Console.WriteLine(string.Join("\n", cases));
                     
-                }
-                break;
-            
-            case "4":
-                Console.WriteLine("Melyik ügyhöz szeretne hozzáadni a személyt? (azonosító)");
-                ugyAzonosito = Console.ReadLine();
-
-                ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
-
-                while (ugy == null)
-                {
-                    Console.WriteLine("Nincs ilyen ügy, adjon meg egy másikat!");
                     ugyAzonosito = Console.ReadLine();
+
+                    Case ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
+
+                    while (ugy == null)
+                    {
+                        Console.WriteLine("Nincs ilyen ügy, adjon meg egy másikat!");
+                        ugyAzonosito = Console.ReadLine();
+                        ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
+                    }
+
+
+                    Console.WriteLine("Melyik bizonyítékot szertné hozzáadni? (azonosító)          [V]issza");
+                    Console.WriteLine(string.Join("\n", evidences));
+                    
+                    string bizAzonosito = Console.ReadLine();
+
+                    foreach (Evidence evidence in evidences)
+                    {
+                        if (evidence.Azonosito == bizAzonosito)
+                        {
+                            Console.WriteLine("A bizonyíték hozzáadása megtörtént!");
+                            ugy.AddEvidence(evidence);
+                            Wait();
+                        }
+                        else if (bizAzonosito == "v" || bizAzonosito == "V") Console.WriteLine();
+                        else
+                        {
+                            Console.WriteLine("Nincs ilyen bizonyíték");
+                            Wait();
+                        }
+
+
+                    }
+
+                    break;
+
+                case "4":
+                    Console.WriteLine("Melyik ügyhöz szeretne hozzáadni a személyt? (azonosító)");
+                    Console.WriteLine(string.Join("\n", cases));
+                    ugyAzonosito = Console.ReadLine();
+
                     ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
-                }
 
-                Console.WriteLine("Milyen típusú személyt szeretne hozzáadni?");
-                Console.WriteLine("1. Tanú");
-                Console.WriteLine("2. Gyanúsított");
-                string valasz = Console.ReadLine();
+                    while (ugy == null)
+                    {
+                        Console.WriteLine("Nincs ilyen ügy, adjon meg egy másikat!");
+                        ugyAzonosito = Console.ReadLine();
+                        ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
+                    }
 
-                switch (valasz)
-                {
-                    case "1":
-                        Console.WriteLine("Melyik személyt szeretné hozzáadni? (név)");
-                        string tanuNev = Console.ReadLine();
+                    Console.WriteLine("Milyen típusú személyt szeretne hozzáadni?");
+                    Console.WriteLine("1. Tanú");
+                    Console.WriteLine("2. Gyanúsított");
+                    Console.WriteLine("3. Vissza");
+                    string valasz = Console.ReadLine();
+
+                    switch (valasz)
+                    {
+                        case "1":
+                            Console.WriteLine("Melyik tanút szeretné hozzáadni? (név)          [V]issza");
+                            Console.WriteLine(string.Join("\n", witnesses));
+                            string tanuNev = Console.ReadLine();
+
+                            if (tanuNev != "v" && tanuNev != "V")
+                            {
+                                Witness witness = witnesses.FirstOrDefault(p => p.Nev == tanuNev);
+
+                                while (witness == null)
+                                {
+                                    Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
+                                    tanuNev = Console.ReadLine();
+                                    witness = witnesses.FirstOrDefault(p => p.Nev == tanuNev);
+
+                                }
+
+                                ugy.AddWitness(witness);
+                            }
+
+                            break;
+
+                        case "2":
+                            Console.WriteLine("Melyik gyanúsítottat szeretné hozzáadni? (név)          [V]issza");
+                            Console.WriteLine(string.Join("\n", suspects));
+                            string.Join("\n", suspects);
+                            string gyanusitottNev = Console.ReadLine();
+
+                            if (gyanusitottNev != "v" && gyanusitottNev != "V")
+                            {
+                                Suspect suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
+
+                                while (suspect == null)
+                                {
+                                    Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
+                                    gyanusitottNev = Console.ReadLine();
+                                    suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
+
+                                }
+
+                                ugy.AddSuspect(suspect);
+                            }
+
+                            break;
                         
-                        Witness witness = witnesses.FirstOrDefault(p => p.Nev == tanuNev);
+                        case "3":
+                            break;
                         
-                        while (witness == null)
-                        {
-                            Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
-                            tanuNev = Console.ReadLine();
-                            witness = witnesses.FirstOrDefault(p => p.Nev == tanuNev);
-                        
-                        }
-                        
-                        ugy.AddWitness(witness);
-                        break;
-                    
-                    case "2":
-                        Console.WriteLine("Melyik személyt szeretné hozzáadni? (név)");
-                        string gyanusitottNev = Console.ReadLine();
-                    
-                        Suspect suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
-                    
-                        while (suspect == null)
-                        {
-                            Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
-                            gyanusitottNev = Console.ReadLine();
-                            suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
-                        
-                        }
-                    
-                        ugy.AddSuspect(suspect);
-                        break;
-                        
-                }
-                    
+                        default:
+                            Console.WriteLine("Hibás input!");
+                            Thread.Sleep(1000);
+                            break;
+
+                    }
+
+
+                    break;
                 
-                break;
+                case "5":
+                    break;
                 
-        }
+                default:
+                    Console.WriteLine("Hibás input!");
+                    Thread.Sleep(1000);
+                    break;
+
+            }
+        } while (opcio != "5");
     }
 
     static void Menu()
