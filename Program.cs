@@ -8,6 +8,7 @@ class Program
     private static List<Suspect> suspects = new List<Suspect>();
     private static List<User> users = new List<User>();
     private static List<Witness> witnesses = new List<Witness>();
+    private static List<TimelineEvent> timelineEvents = new List<TimelineEvent>();
 
     static void AdatokFeltoltese()
     {
@@ -17,9 +18,10 @@ class Program
         suspects.Add(new Suspect("steszt1", 20, "steszt1", 10, "őrizetben"));
         witnesses.Add(new Witness("wteszt1",  20, "wteszt1", "látta a bűnt", "18/02/2026"));
         users.Add(new User("teszt1", "teszt1", "nyomozo"));
+        timelineEvents.Add(new TimelineEvent("teszt1","18/02/2026", "unatkozás"));
     }
 
-    static void Wait()
+    public static void Wait()
     {
         Console.WriteLine("Nyomjon egy gombot a folytatáshoz!");
         Console.ReadKey();
@@ -32,6 +34,7 @@ class Program
         Console.WriteLine("1. Bizonyíték hozzáadása");
         Console.WriteLine("2. Bizonyíték törlése");
         Console.WriteLine("3. Listázás");
+        Console.WriteLine("4. Vissza");
 
         string opcio = Console.ReadLine();
         
@@ -58,7 +61,8 @@ class Program
             
             case "2":
 
-                Console.Write("Melyik azonosítójú bizonyítékot szeretné törölni? ");
+                Console.Write("Melyik azonosítójú bizonyítékot szeretné törölni?          [V]issza \n");
+                Console.WriteLine(string.Join("\n", evidences));
                 azonosito = Console.ReadLine();
 
 
@@ -67,7 +71,9 @@ class Program
                     if (evidence.Azonosito  == azonosito)
                     {
                         Console.WriteLine("A bizonyíték törtése megtörtént!");
+                        Thread.Sleep(1000);
                     }
+                    else if (azonosito == "v" || azonosito == "V") Console.WriteLine();
                     else
                     {
                         Console.WriteLine("Nincs ilyen bizonyíték");
@@ -77,8 +83,6 @@ class Program
                 }
                 evidences.RemoveAll(e => e.Azonosito == azonosito);
                 
-                Console.WriteLine("Nyomjon meg egy gombot a folytatáshoz");
-                Console.ReadKey();
                 break;
 
             case "3":
@@ -99,8 +103,15 @@ class Program
                 Console.ReadKey();
                 
                 break;
+            
+            case "4":
+                break;
+            
+            default:
+                Console.WriteLine("Hibás input!");
+                break;
         }
-
+            
         
     }
 
@@ -114,7 +125,8 @@ class Program
             Console.WriteLine("2. Ügyyek listázása");
             Console.WriteLine("3. Bizonyítékok hozzárendelése");
             Console.WriteLine("4. Személyek hozzárendelése");
-            Console.WriteLine("5. Vissza");
+            Console.WriteLine("5. Ügy állapotának módosítása");
+            Console.WriteLine("6. Vissza");
 
             opcio = Console.ReadLine();
 
@@ -280,6 +292,27 @@ class Program
                     break;
                 
                 case "5":
+                    Console.Clear();
+                    Console.WriteLine("Melyik ügynek szeretné módosítani az állapotát? (azonosító)");
+                    Console.WriteLine(string.Join("\n", cases));
+                    ugyAzonosito = Console.ReadLine();
+
+                    ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
+
+                    while (ugy == null)
+                    {
+                        Console.WriteLine("Nincs ilyen ügy, adjon meg egy másikat!");
+                        ugyAzonosito = Console.ReadLine();
+                        ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
+                    }
+
+                    Console.WriteLine("Mire szeretné változtatni?");
+                    ugy.Status(Console.ReadLine());
+                    
+                    
+                    break;
+                
+                case "6":
                     break;
                 
                 default:
@@ -288,16 +321,227 @@ class Program
                     break;
 
             }
-        } while (opcio != "5");
+        } while (opcio != "6");
     }
 
+    static void PersonManager()
+    {
+        string opcio;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("1. Személy hozzáadása");
+            Console.WriteLine("2. Személy törlése");
+            Console.WriteLine("3. Listázás");
+            Console.WriteLine("4. Vissza");
+            
+            opcio = Console.ReadLine();
+
+            switch (opcio)
+            {
+                case "1":
+                    Console.Clear();
+                    Console.WriteLine("Milyen típusú személyt szeretne hozzáadni?");
+                    Console.WriteLine("1. Tanú");
+                    Console.WriteLine("2. Gyanúsított");
+                    Console.WriteLine("3. Vissza");
+                    string valasz = Console.ReadLine();
+
+                    switch (valasz)
+                    {
+                        case "1":
+                            Console.Clear();
+                            Console.Write("Név: ");
+                            string wnev = Console.ReadLine();
+                            
+                            Console.Write("Életkor: ");
+                            int weletkor = int.Parse(Console.ReadLine());
+
+                            Console.Write("Megjegyzés: ");
+                            string wmegjegyzes = Console.ReadLine();
+                            
+                            Console.Write("Vallomás: ");
+                            string wvallomas = Console.ReadLine();
+                            
+                            Console.Write("Dátum: ");
+                            string wdatum = Console.ReadLine();
+                            
+                            witnesses.Add(new Witness(wnev, weletkor, wmegjegyzes, wvallomas, wdatum));
+                            
+                            break;
+                        
+                            case "2":
+                                Console.Clear();
+                                Console.Write("Név: ");
+                                string snev = Console.ReadLine();
+                                
+                                Console.Write("Életkor: ");
+                                int seletkor = int.Parse(Console.ReadLine());
+
+                                Console.Write("Megjegyzés: ");
+                                string smegjegyzes = Console.ReadLine();
+
+                                int sszint;
+
+                                do
+                                {
+                                    Console.Write("Szint: ");
+                                    sszint = int.Parse(Console.ReadLine());
+
+                                    if (sszint > 100)
+                                    {
+                                        Console.WriteLine("Az érték nem lehet nagydobb mint 100!");
+                                        Thread.Sleep(1000);
+                                    }
+                                } while (sszint > 100);
+
+                                Console.WriteLine("Státusz: ");
+                                string sstatusz = Console.ReadLine();
+                                
+                                suspects.Add(new Suspect(snev, seletkor, smegjegyzes, sszint, sstatusz));
+                                
+                                break;
+                            }
+
+                            break;
+                    
+                    
+                    break;
+                
+                case "2":
+                    Console.Clear();
+                    Console.WriteLine("1. Tanú");
+                    Console.WriteLine("2. Gyanúsított");
+                    Console.WriteLine("3. Vissza");
+
+                    string nev;
+                    bool talalt;
+
+                    switch (Console.ReadLine())
+                    {
+                        case "1":
+                            Console.Write("Melyik tanút szeretné törölni?          [V]issza \n");
+                            Console.WriteLine(string.Join("\n", witnesses));
+                            nev = Console.ReadLine();
+
+
+                            foreach (Witness witness in witnesses)
+                            {
+                                if (witness.Nev  == nev)
+                                {
+                                    Console.WriteLine("A tanú törtése megtörtént!");
+                                    talalt = true;
+                                    Thread.Sleep(1000);
+                                }
+                                else if (nev == "v" || nev == "V") Console.WriteLine();
+                                else
+                                {
+                                    Console.WriteLine("Nincs ilyen tanú");
+                                }
+                            }
+                            
+                            if (talalt = true) witnesses.RemoveAll(e => e.Nev == nev);
+                            
+                            break;
+                        
+                        case "2":
+                            Console.Write("Melyik gyanúsítottat szeretné törölni?          [V]issza \n");
+                            Console.WriteLine(string.Join("\n", suspects));
+                            nev = Console.ReadLine();
+                            
+
+                            foreach (Suspect suspect in suspects)
+                            {
+                                if (suspect.Nev  == nev)
+                                {
+                                    Console.WriteLine("A gyanúsított törtése megtörtént!");
+                                    talalt = true;
+                                    Thread.Sleep(1000);
+                                }
+                                else if (nev == "v" || nev == "V") Console.WriteLine();
+                                else
+                                {
+                                    Console.WriteLine("Nincs ilyen gyanúsított");
+                                }
+                            }
+                            
+                            if (talalt = true) suspects.RemoveAll(e => e.Nev == nev);
+                            
+                            break;
+                    }
+                    
+                    break;
+                
+                case "3":
+                    Console.Clear();
+                    Console.WriteLine("1. Tanúk");
+                    Console.WriteLine("2. Gyanúsítottak");
+                    Console.WriteLine("3. Vissza");
+
+                    switch (Console.ReadLine())
+                    {
+                        case "1":
+                            if (witnesses.Count > 0) Console.WriteLine(string.Join("\n", witnesses));
+                            else Console.WriteLine("Nincs semmilyen tanú");
+                            
+                            Wait();
+                            
+                            break;
+                        
+                        case "2":
+                            if (suspects.Count > 0) Console.WriteLine(string.Join("\n", suspects));
+                            else Console.WriteLine("Nincs semmilyen gyanúsított");
+                            
+                            Wait();
+                            
+                            break;
+                        
+                        case "3":
+                            break;
+                        
+                        default:
+                            Console.WriteLine("Hibás input");
+                            Thread.Sleep(1000);
+                            break;
+                        
+                    }
+                    
+                    break;
+                    
+            }
+            
+        } while (opcio != "4");
+    }
+
+    static void TimeLineManager()
+    {
+        Console.Clear();
+        
+        Console.WriteLine("Melyik ügynek szeretné módosítani az idővonalát?");
+        Console.WriteLine(string.Join("\n", cases));
+
+        string azonosito;
+        Case ugy;
+
+        do
+        {
+            azonosito = Console.ReadLine();
+            ugy = cases.FirstOrDefault(c => c.UgyAzonosito == azonosito);
+            Console.WriteLine(ugy.ToString());
+            
+        } while (ugy == null);
+        
+        ugy.TimelineManager();
+        
+    }
+    
     static void Menu()
     {
         Console.Clear();
         Console.WriteLine("1. Ügyek kezelése");
         Console.WriteLine("2. Személyek kezelése");
         Console.WriteLine("3. Bizonyítékok kezelése");
-        Console.WriteLine("4. Idővonal megtekintése");
+        Console.WriteLine("4. Idővonalak kezelése");
         Console.WriteLine("5. Elemzések / döntések");
         Console.WriteLine("6. Kilépés");
 
@@ -335,8 +579,16 @@ class Program
                     CaseManager();
                     break;
                 
+                case "2":
+                    PersonManager();
+                    break;
+                
                 case "3":
                     EvidenceManager();
+                    break;
+                
+                case "4":
+                    TimeLineManager();
                     break;
                 
                 case "6":
@@ -345,6 +597,7 @@ class Program
                 
                 default:
                     Console.WriteLine("Hibás input!");
+                    Thread.Sleep(1000);
                     break;
                     
             }
