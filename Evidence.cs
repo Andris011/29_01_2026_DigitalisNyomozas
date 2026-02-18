@@ -41,6 +41,6 @@ public class Evidence
 
     public override string ToString()
     {
-        return $"Azonosító: {azonosito} Megbízhatóság: {megbizhatosag} Típus: {tipus} Leírás: {leiras} \n";
+        return $"\t Azonosító: {azonosito} Megbízhatóság: {megbizhatosag} Típus: {tipus} Leírás: {leiras} \n";
     } 
 }

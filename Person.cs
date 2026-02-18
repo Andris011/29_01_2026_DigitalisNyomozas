@@ -33,6 +33,6 @@ public class Person
 
     public override string ToString()
     {
-        return $"Név: {nev}, életkoz: {eletkor}, megjegyzés: {megjegyzes} \n";
+        return $"\t Név: {nev}, életkoz: {eletkor}, megjegyzés: {megjegyzes}";
     }
 }

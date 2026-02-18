@@ -4,7 +4,26 @@ class Program
 {
     private static List<Evidence> evidences = new List<Evidence>();
     private static List<Case> cases = new List<Case>();
-    private static List<Person> _persons = new List<Person>();
+    private static List<Person> persons = new List<Person>();
+    private static List<Suspect> suspects = new List<Suspect>();
+    private static List<User> users = new List<User>();
+    private static List<Witness> witnesses = new List<Witness>();
+
+    static void AdatokFeltoltese()
+    {
+        evidences.Add(new Evidence("teszt1", "fotó", "teszt1", 10));
+        cases.Add(new Case("teszt1", "teszt1", "teszt1", "teszt1"));
+        persons.Add(new Person("pteszt1", 20, "pteszt1"));
+        suspects.Add(new Suspect("steszt1", 20, "steszt1", 10, "őrizetben"));
+        witnesses.Add(new Witness("wteszt1",  20, "wteszt1", "látta a bűnt", "18/02/2026"));
+        users.Add(new User("teszt1", "teszt1", "nyomozo"));
+    }
+
+    static void Wait()
+    {
+        Console.WriteLine("Nyomjon egy gombot a folytatáshoz!");
+        Console.ReadKey();
+    }
     
     static void EvidenceManager()
     {
@@ -90,9 +109,9 @@ class Program
         Console.Clear();
         Console.WriteLine("1. Új ügy létrehozása");
         Console.WriteLine("2. Ügyyek listázása");
-        Console.WriteLine("3. Személyek hozzárendelése");
-        Console.WriteLine("4. Bizonyítékok hozzárendelése");
-        
+        Console.WriteLine("3. Bizonyítékok hozzárendelése");
+        Console.WriteLine("4. Személyek hozzárendelése");
+
         string opcio = Console.ReadLine();
         
         switch (opcio)
@@ -118,11 +137,18 @@ class Program
 
                 if (cases.Count > 0)
                 {
-                    Console.WriteLine(cases);
+
+                    foreach (Case elem in cases)
+                    {
+                        Console.WriteLine(elem.ToString());
+                    }
+                    
+                    Wait();
                 }
                 else
                 {
                     Console.WriteLine("Nincs semmilyen ügy");
+                    Wait();
                 }
                 break;
             
@@ -150,10 +176,12 @@ class Program
                     {
                         Console.WriteLine("A bizonyíték hozzáadása megtörtént!");
                         ugy.AddEvidence(evidence);
+                        Wait();
                     }
                     else
                     {
                         Console.WriteLine("Nincs ilyen bizonyíték");
+                        Wait();
                     }
 
                     
@@ -161,7 +189,7 @@ class Program
                 break;
             
             case "4":
-                Console.WriteLine("Melyik ügyhöz szeretne hozzáadni bizonyítékot? (azonosító)");
+                Console.WriteLine("Melyik ügyhöz szeretne hozzáadni a személyt? (azonosító)");
                 ugyAzonosito = Console.ReadLine();
 
                 ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
@@ -172,21 +200,50 @@ class Program
                     ugyAzonosito = Console.ReadLine();
                     ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
                 }
-                
-                Console.WriteLine("Melyik személyt szeretné hozzáadni? (név)");
-                string szemelyNev = Console.ReadLine();
-                
-                Person szemely = _persons.FirstOrDefault(p => p.Nev == szemelyNev);
-                
-                while (szemely == null)
+
+                Console.WriteLine("Milyen típusú személyt szeretne hozzáadni?");
+                Console.WriteLine("1. Tanú");
+                Console.WriteLine("2. Gyanúsított");
+                string valasz = Console.ReadLine();
+
+                switch (valasz)
                 {
-                    Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
-                    szemelyNev = Console.ReadLine();
-                    szemely = _persons.FirstOrDefault(p => p.Nev == szemelyNev);
+                    case "1":
+                        Console.WriteLine("Melyik személyt szeretné hozzáadni? (név)");
+                        string tanuNev = Console.ReadLine();
+                        
+                        Witness witness = witnesses.FirstOrDefault(p => p.Nev == tanuNev);
+                        
+                        while (witness == null)
+                        {
+                            Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
+                            tanuNev = Console.ReadLine();
+                            witness = witnesses.FirstOrDefault(p => p.Nev == tanuNev);
+                        
+                        }
+                        
+                        ugy.AddWitness(witness);
+                        break;
                     
+                    case "2":
+                        Console.WriteLine("Melyik személyt szeretné hozzáadni? (név)");
+                        string gyanusitottNev = Console.ReadLine();
+                    
+                        Suspect suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
+                    
+                        while (suspect == null)
+                        {
+                            Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
+                            gyanusitottNev = Console.ReadLine();
+                            suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
+                        
+                        }
+                    
+                        ugy.AddSuspect(suspect);
+                        break;
+                        
                 }
-                
-                ugy.AddPerson(szemely);
+                    
                 
                 break;
                 
@@ -207,7 +264,7 @@ class Program
     
     static void Main(string[] args)
     {
-        evidences.Add(new Evidence("teszt1", "teszt1", "teszt1", 2));
+        AdatokFeltoltese();
         
         
         Console.Clear();
@@ -233,8 +290,16 @@ class Program
              
             switch (menuBe)
             {
+                case "1":
+                    CaseManager();
+                    break;
+                
                 case "3":
                     EvidenceManager();
+                    break;
+                
+                case "6":
+                    Console.WriteLine("Viszlát");
                     break;
                 
                 default:

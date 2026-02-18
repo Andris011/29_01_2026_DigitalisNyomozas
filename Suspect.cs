@@ -1,22 +1,14 @@
 ﻿namespace _29_01_2026_DigitalisNyomozas;
 
-public class Suspect
+public class Suspect : Person
 {
-    private List<Person> person;
     private int szint;
     private string status;
 
-    public Suspect(List<Person> person, int szint, string status)
+    public Suspect(string nev, int eletkor, string megjegyzes, int szint, string status) : base(nev, eletkor, megjegyzes)
     {
-        this.person = person;
         this.szint = szint;
         this.status = status;
-    }
-
-    public List<Person> Person
-    {
-        get => person;
-        set => person = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public int Szint
@@ -30,6 +22,9 @@ public class Suspect
         get => status;
         set => status = value ?? throw new ArgumentNullException(nameof(value));
     }
-    
-    
+
+    public override string ToString()
+    {
+        return base.ToString() + $" ,szint: {szint}, status: {status}";
+    }
 }

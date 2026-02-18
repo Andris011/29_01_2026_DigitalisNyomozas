@@ -1,22 +1,14 @@
 ﻿namespace _29_01_2026_DigitalisNyomozas;
 
-public class Witness
+public class Witness : Person
 {
-    private List<Person> person;
     private string vallomas;
     private string datum;
 
-    public Witness(List<Person> person, string vallomas, string datum)
+    public Witness(string nev, int eletkor, string megjegyzes, string vallomas, string datum) : base(nev, eletkor, megjegyzes)
     {
-        this.person = person;
         this.vallomas = vallomas;
         this.datum = datum;
-    }
-
-    public List<Person> Person
-    {
-        get => person;
-        set => person = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public string Vallomas
@@ -29,5 +21,10 @@ public class Witness
     {
         get => datum;
         set => datum = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + $" ,vallomás: {vallomas}, dátum: {datum}";
     }
 }
