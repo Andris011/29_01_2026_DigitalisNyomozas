@@ -50,6 +50,36 @@ internal class Case
         set => allapot = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    public List<Person> Szemelyek
+    {
+        get => szemelyek;
+        set => szemelyek = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<Suspect> Gyanusitottak
+    {
+        get => gyanusitottak;
+        set => gyanusitottak = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<Witness> Tanuk
+    {
+        get => tanuk;
+        set => tanuk = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<Evidence> Bizonyitekok
+    {
+        get => bizonyitekok;
+        set => bizonyitekok = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    public List<TimelineEvent> Idovonal
+    {
+        get => idovonal;
+        set => idovonal = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
     public void AddEvidence(Evidence evidence)
     {
         bizonyitekok.Add(evidence);
@@ -94,7 +124,7 @@ internal class Case
                         Console.Write("Dátum: ");
                         string datum = Console.ReadLine();
 
-                        Console.Write("leiras");
+                        Console.Write("Leírás: ");
                         string leiras = Console.ReadLine();
 
                         idovonal.Add(new TimelineEvent(azonostito, datum, leiras));

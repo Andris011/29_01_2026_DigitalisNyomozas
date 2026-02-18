@@ -37,6 +37,8 @@ class Program
         Console.WriteLine("4. Vissza");
 
         string opcio = Console.ReadLine();
+
+        Console.Clear();
         
         switch (opcio)
         {
@@ -129,6 +131,8 @@ class Program
             Console.WriteLine("6. Vissza");
 
             opcio = Console.ReadLine();
+            
+            Console.Clear();
 
             switch (opcio)
             {
@@ -224,12 +228,14 @@ class Program
                         ugyAzonosito = Console.ReadLine();
                         ugy = cases.FirstOrDefault(c => c.UgyAzonosito == ugyAzonosito);
                     }
-
+                    
+                    Console.Clear();
                     Console.WriteLine("Milyen típusú személyt szeretne hozzáadni?");
                     Console.WriteLine("1. Tanú");
                     Console.WriteLine("2. Gyanúsított");
                     Console.WriteLine("3. Vissza");
                     string valasz = Console.ReadLine();
+                    Console.Clear();
 
                     switch (valasz)
                     {
@@ -267,10 +273,23 @@ class Program
 
                                 while (suspect == null)
                                 {
-                                    Console.WriteLine("Nem létezik ilyen személy, adjon meg egy másikat");
+                                    Console.WriteLine("Nem létezik ilyen gyanúsított, adjon meg egy másikat");
                                     gyanusitottNev = Console.ReadLine();
                                     suspect = suspects.FirstOrDefault(p => p.Nev == gyanusitottNev);
 
+                                }
+
+                                suspect.Szint += ugy.Bizonyitekok.Count;
+
+                                if (suspect.Szint > 100)
+                                {
+                                    Console.WriteLine("A gyanusított szintje a bizonyítékok száma miatt meghaladná" +
+                                                      " a 100-at, így értéke 100 marad"
+                                    );
+                                    
+                                    suspect.Szint = 100;
+                                    
+                                    Wait();
                                 }
 
                                 ugy.AddSuspect(suspect);
@@ -397,6 +416,7 @@ class Program
 
                                 Console.WriteLine("Státusz: ");
                                 string sstatusz = Console.ReadLine();
+                                
                                 
                                 suspects.Add(new Suspect(snev, seletkor, smegjegyzes, sszint, sstatusz));
                                 
@@ -542,8 +562,7 @@ class Program
         Console.WriteLine("2. Személyek kezelése");
         Console.WriteLine("3. Bizonyítékok kezelése");
         Console.WriteLine("4. Idővonalak kezelése");
-        Console.WriteLine("5. Elemzések / döntések");
-        Console.WriteLine("6. Kilépés");
+        Console.WriteLine("5. Kilépés");
 
     }
     
@@ -591,7 +610,7 @@ class Program
                     TimeLineManager();
                     break;
                 
-                case "6":
+                case "5":
                     Console.WriteLine("Viszlát");
                     break;
                 
@@ -602,12 +621,6 @@ class Program
                     
             }
         
-        } while (menuBe != "6");
-        
-        
-        Console.WriteLine(menuBe);
-        
-        
-        
+        } while (menuBe != "5");
     }
 }
